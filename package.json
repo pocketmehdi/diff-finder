@@ -1,0 +1,39 @@
+{
+  "name": "console-diff-finder",
+  "version": "1.2.0",
+  "description": "Student project. Compares two configuration files and shows a difference.",
+  "scripts": {
+    "babel-node": "babel-node",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublishOnly": "npm run build"
+  },
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pocketmehdi/diff-finder.git"
+  },
+  "keywords": [
+    "cli app",
+    "compare files"
+  ],
+  "author": "pocketmehdi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pocketmehdi/diff-finder/issues"
+  },
+  "homepage": "https://github.com/pocketmehdi/diff-finder#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1"
+  },
+  "dependencies": {
+    "commander": "^2.18.0"
+  }
+}
