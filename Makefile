@@ -6,3 +6,6 @@ check:
 
 lint:
 	npm run eslint .
+
+test:
+	npm run test
