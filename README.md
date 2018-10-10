@@ -5,3 +5,4 @@
 [![Build Status](https://travis-ci.org/pocketmehdi/diff-finder.svg?branch=master)](https://travis-ci.org/pocketmehdi/diff-finder)
 
 [![asciicast](https://asciinema.org/a/baqEcxyY3Vc6h2pH0xyQ5dSdW.png)](https://asciinema.org/a/baqEcxyY3Vc6h2pH0xyQ5dSdW)
+[![asciicast](https://asciinema.org/a/xWccQQyxAMHsYv0pEPGg8vJ17.png)](https://asciinema.org/a/xWccQQyxAMHsYv0pEPGg8vJ17)
