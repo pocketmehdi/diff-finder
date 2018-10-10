@@ -6,7 +6,8 @@
     "babel-node": "babel-node",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build",
-    "eslint": "eslint"
+    "eslint": "eslint",
+    "test": "jest"
   },
   "bin": {
     "gendiff": "dist/bin/gendiff.js"
@@ -36,9 +37,11 @@
     "babel-preset-stage-0": "^6.24.1",
     "eslint": "^5.6.1",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "eslint-plugin-import": "^2.14.0",
+    "jest": "^23.6.0"
   },
   "dependencies": {
-    "commander": "^2.18.0"
+    "commander": "^2.18.0",
+    "lodash": "^4.17.11"
   }
 }
