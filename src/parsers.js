@@ -1,5 +1,3 @@
-import path from 'path';
-import fs from 'fs';
 import yaml from 'js-yaml';
 
 const types = {
@@ -7,11 +5,8 @@ const types = {
   '.json': JSON.parse,
 };
 
-const parser = (filePath) => {
-  const content = fs.readFileSync(filePath, 'utf-8');
-  const extension = path.extname(filePath);
-  const parse = types[extension];
-
+const parser = ([content, ext]) => {
+  const parse = types[ext];
   return parse(content);
 };
 
