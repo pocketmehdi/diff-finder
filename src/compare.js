@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import fs from 'fs';
+import parser from './parsers';
 
 const genDiff = (pathToFile1, pathToFile2) => {
-  const [firstConfig, secondConfig] = [pathToFile1, pathToFile2].map(p => JSON.parse(fs.readFileSync(p, 'utf-8')));
+  const [firstConfig, secondConfig] = [pathToFile1, pathToFile2].map(p => parser(p));
 
   const diffFirstSecond = Object.keys(firstConfig).reduce((acc, key) => {
     if (_.has(secondConfig, key)) {
