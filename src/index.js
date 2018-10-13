@@ -8,8 +8,8 @@ const getParseData = filePath => [fs.readFileSync(filePath, 'utf-8'), path.extna
 const isObj = arg => arg instanceof Object;
 const stringify = (value) => {
   if (isObj(value)) {
-    const objAtrrs = Object.keys(value).map(key => `    ${key}: ${value[key]}`);
-    return `{\n${objAtrrs.join('\n')}\n}`;
+    const objAtrrs = Object.keys(value).map(key => `${' '.repeat(4)}${key}: ${value[key]}`);
+    return `{\n${objAtrrs.join('\n')}\n${' '.repeat(2)}}`;
   }
   return value;
 };
@@ -44,19 +44,20 @@ const parse = (obj1, obj2) => {
 };
 
 const renders = {
-  equal: arg => `    ${arg.name}: ${stringify(arg.value1)}`,
-  changed: arg => `  + ${arg.name}: ${stringify(arg.value1)}\n  - ${arg.name}: ${stringify(arg.value2)}`,
-  wasRemoved: arg => `  - ${arg.name}: ${stringify(arg.value1)}`,
-  wasAdded: arg => `  + ${arg.name}: ${stringify(arg.value2)}`,
+  equal: arg => `${' '.repeat(4)}${arg.name}: ${stringify(arg.value1)}`,
+  changed: arg => `${' '.repeat(2)}+ ${arg.name}: ${stringify(arg.value1)}\n${' '.repeat(2)}- ${arg.name}: ${stringify(arg.value2)}`,
+  wasRemoved: arg => `${' '.repeat(2)}- ${arg.name}: ${stringify(arg.value1)}`,
+  wasAdded: arg => `${' '.repeat(2)}+ ${arg.name}: ${stringify(arg.value2)}`,
 };
 
 const render = (ast) => {
   const values = ast.map((node) => {
     if (node.type === 'nested') {
-      return `    ${node.name}: ${node.children.map(render).join('\n')}`;
+      return `${' '.repeat(4)}${node.name}: ${node.children.map(render).join('\n')}`;
     }
     return renders[node.status](node);
   });
+
   return `{\n${values.join('\n')}\n}`;
 };
 
