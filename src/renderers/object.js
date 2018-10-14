@@ -10,7 +10,7 @@ const renders = {
 const render = (ast) => {
   const values = ast.map((node) => {
     if (node.type === 'nested') {
-      return `${' '.repeat(4)}${node.name}: ${node.children.map(render).join('\n')}`;
+      return `${' '.repeat(4)}${node.name}: ${render(node.children)}`;
     }
     return renders[node.status](node);
   });

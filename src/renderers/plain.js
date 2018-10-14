@@ -25,7 +25,7 @@ const renders = {
 const iter = (children, prevName) => {
   const extracted = children.map((node) => {
     if (node.type === 'nested') {
-      return iter(_.flatten(node.children), resolveName(prevName, node.name));
+      return iter(node.children, resolveName(prevName, node.name));
     }
     return renders[node.status](node, prevName);
   });
