@@ -1,44 +1,27 @@
 import fs from 'fs';
 import genDiff from '../src';
 
-const result = () => fs.readFileSync('__tests__/__fixtures__/result.txt', 'utf-8');
+const pathBefore = '__tests__/__fixtures__/before';
+const pathAfter = '__tests__/__fixtures__/after';
+const resultObj = () => fs.readFileSync('__tests__/__fixtures__/result_obj.txt', 'utf-8');
+const resultPlain = () => fs.readFileSync('__tests__/__fixtures__/result_plain.txt', 'utf-8');
+const resultJson = () => fs.readFileSync('__tests__/__fixtures__/result_json.txt', 'utf-8');
 
-test('compare two json files', () => {
-  expect(genDiff('__tests__/__fixtures__/before.json', '__tests__/__fixtures__/after.json')).toEqual(result());
+
+test('gen diff for two files in object format', () => {
+  expect(genDiff(`${pathBefore}.json`, `${pathAfter}.json`)).toEqual(resultObj());
+  expect(genDiff(`${pathBefore}.yml`, `${pathAfter}.yml`)).toEqual(resultObj());
+  expect(genDiff(`${pathBefore}.ini`, `${pathAfter}.ini`)).toEqual(resultObj());
 });
 
-test('compare two yaml files', () => {
-  expect(genDiff('__tests__/__fixtures__/before.yml', '__tests__/__fixtures__/after.yml')).toEqual(result());
+test('gen diff for two files in plain format', () => {
+  expect(genDiff(`${pathBefore}.json`, `${pathAfter}.json`, 'plain')).toEqual(resultPlain());
+  expect(genDiff(`${pathBefore}.yml`, `${pathAfter}.yml`, 'plain')).toEqual(resultPlain());
+  expect(genDiff(`${pathBefore}.ini`, `${pathAfter}.ini`, 'plain')).toEqual(resultPlain());
 });
 
-test('compare two ini files', () => {
-  expect(genDiff('__tests__/__fixtures__/before.ini', '__tests__/__fixtures__/after.ini')).toEqual(result());
-});
-
-const resultNested = () => fs.readFileSync('__tests__/__fixtures__/result_nested.txt', 'utf-8');
-
-test('compare two nested json files', () => {
-  expect(genDiff('__tests__/__fixtures__/before_nested.json', '__tests__/__fixtures__/after_nested.json')).toEqual(resultNested());
-});
-
-test('compare two nested yaml files', () => {
-  expect(genDiff('__tests__/__fixtures__/before_nested.yml', '__tests__/__fixtures__/after_nested.yml')).toEqual(resultNested());
-});
-
-test('compare two nested ini files', () => {
-  expect(genDiff('__tests__/__fixtures__/before_nested.ini', '__tests__/__fixtures__/after_nested.ini')).toEqual(resultNested());
-});
-
-const resultPlain = () => fs.readFileSync('__tests__/__fixtures__/result_nested_plain.txt', 'utf-8');
-
-test('compare two nested json files in plain format', () => {
-  expect(genDiff('__tests__/__fixtures__/before_nested.json', '__tests__/__fixtures__/after_nested.json', 'plain')).toEqual(resultPlain());
-});
-
-test('compare two nested yaml files in plain format', () => {
-  expect(genDiff('__tests__/__fixtures__/before_nested.yml', '__tests__/__fixtures__/after_nested.yml', 'plain')).toEqual(resultPlain());
-});
-
-test('compare two nested ini files in plain format', () => {
-  expect(genDiff('__tests__/__fixtures__/before_nested.ini', '__tests__/__fixtures__/after_nested.ini', 'plain')).toEqual(resultPlain());
+test('gen diff for two files in json format', () => {
+  expect(genDiff(`${pathBefore}.json`, `${pathAfter}.json`, 'json')).toEqual(resultJson());
+  expect(genDiff(`${pathBefore}.yml`, `${pathAfter}.yml`, 'json')).toEqual(resultJson());
+  expect(genDiff(`${pathBefore}.ini`, `${pathAfter}.ini`, 'json')).toEqual(resultJson());
 });
