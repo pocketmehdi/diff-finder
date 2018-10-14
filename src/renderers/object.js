@@ -1,21 +1,32 @@
-import stringify from '../utils';
+const stringify = (value, space) => {
+  if (value instanceof Object) {
+    const objAtrrs = Object.keys(value).map(key => `${space}${' '.repeat(8)}${key}: ${value[key]}`);
+    return `{\n${objAtrrs.join('\n')}\n${space}${' '.repeat(4)}}`;
+  }
+  return `${value}`;
+};
 
 const renders = {
-  equal: arg => `${' '.repeat(4)}${arg.name}: ${stringify(arg.value1)}`,
-  changed: arg => `${' '.repeat(2)}+ ${arg.name}: ${stringify(arg.value1)}\n${' '.repeat(2)}- ${arg.name}: ${stringify(arg.value2)}`,
-  wasRemoved: arg => `${' '.repeat(2)}- ${arg.name}: ${stringify(arg.value1)}`,
-  wasAdded: arg => `${' '.repeat(2)}+ ${arg.name}: ${stringify(arg.value2)}`,
+  equal: (arg, prevSpace) => `${prevSpace}${' '.repeat(4)}${arg.name}: ${stringify(arg.value1, prevSpace)}`,
+  changed: (arg, prevSpace) => `${prevSpace}${' '.repeat(2)}+ ${arg.name}: ${stringify(arg.value1, prevSpace)}\n${prevSpace}${' '.repeat(2)}- ${arg.name}: ${stringify(arg.value2, prevSpace)}`,
+  wasRemoved: (arg, prevSpace) => `${prevSpace}${' '.repeat(2)}- ${arg.name}: ${stringify(arg.value1, prevSpace)}`,
+  wasAdded: (arg, prevSpace) => `${prevSpace}${' '.repeat(2)}+ ${arg.name}: ${stringify(arg.value2, prevSpace)}`,
+};
+
+const iter = (children, prevSpace) => {
+  const extracted = children.map((node) => {
+    if (node.type === 'nested') {
+      const newSpace = `${prevSpace}${' '.repeat(4)}`;
+      return `${prevSpace}${' '.repeat(4)}${node.name}: {\n${iter(node.children, newSpace).join('\n')}\n${prevSpace}${' '.repeat(4)}}`;
+    }
+    return renders[node.status](node, prevSpace);
+  });
+  return extracted;
 };
 
 const render = (ast) => {
-  const values = ast.map((node) => {
-    if (node.type === 'nested') {
-      return `${' '.repeat(4)}${node.name}: ${render(node.children)}`;
-    }
-    return renders[node.status](node);
-  });
-
-  return `{\n${values.join('\n')}\n}`;
+  const diff = iter(ast, '');
+  return `{\n${diff.join('\n')}\n}`;
 };
 
 export default render;
