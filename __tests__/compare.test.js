@@ -28,3 +28,17 @@ test('compare two nested yaml files', () => {
 test('compare two nested ini files', () => {
   expect(genDiff('__tests__/__fixtures__/before_nested.ini', '__tests__/__fixtures__/after_nested.ini')).toEqual(resultNested());
 });
+
+const resultPlain = () => fs.readFileSync('__tests__/__fixtures__/result_nested_plain.txt', 'utf-8');
+
+test('compare two nested json files in plain format', () => {
+  expect(genDiff('__tests__/__fixtures__/before_nested.json', '__tests__/__fixtures__/after_nested.json', 'plain')).toEqual(resultPlain());
+});
+
+test('compare two nested yaml files in plain format', () => {
+  expect(genDiff('__tests__/__fixtures__/before_nested.yml', '__tests__/__fixtures__/after_nested.yml', 'plain')).toEqual(resultPlain());
+});
+
+test('compare two nested ini files in plain format', () => {
+  expect(genDiff('__tests__/__fixtures__/before_nested.ini', '__tests__/__fixtures__/after_nested.ini', 'plain')).toEqual(resultPlain());
+});
