@@ -11,16 +11,11 @@ const renders = {
   changed: (arg, prevSpace) => `${prevSpace}${' '.repeat(2)}+ ${arg.name}: ${stringify(arg.value1, prevSpace)}\n${prevSpace}${' '.repeat(2)}- ${arg.name}: ${stringify(arg.value2, prevSpace)}`,
   wasRemoved: (arg, prevSpace) => `${prevSpace}${' '.repeat(2)}- ${arg.name}: ${stringify(arg.value1, prevSpace)}`,
   wasAdded: (arg, prevSpace) => `${prevSpace}${' '.repeat(2)}+ ${arg.name}: ${stringify(arg.value2, prevSpace)}`,
+  nested: (arg, prevSpace, fn) => `${prevSpace}${' '.repeat(4)}${arg.name}: {\n${fn(arg.children, `${prevSpace}${' '.repeat(4)}`).join('\n')}\n${prevSpace}${' '.repeat(4)}}`,
 };
 
 const iter = (children, prevSpace) => {
-  const extracted = children.map((node) => {
-    if (node.type === 'nested') {
-      const newSpace = `${prevSpace}${' '.repeat(4)}`;
-      return `${prevSpace}${' '.repeat(4)}${node.name}: {\n${iter(node.children, newSpace).join('\n')}\n${prevSpace}${' '.repeat(4)}}`;
-    }
-    return renders[node.status](node, prevSpace);
-  });
+  const extracted = children.map(node => renders[node.status](node, prevSpace, iter));
   return extracted;
 };
 

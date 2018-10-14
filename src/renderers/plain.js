@@ -20,21 +20,12 @@ const renders = {
   changed: (arg, parentName) => `Property '${resolveName(parentName, arg.name)}' was changed from ${complexObj(arg.value1)} to ${complexObj(arg.value2)}`,
   wasRemoved: (arg, parentName) => `Property '${resolveName(parentName, arg.name)}' was removed`,
   wasAdded: (arg, parentName) => `Property '${resolveName(parentName, arg.name)}' was added with value: ${complexObj(arg.value2)}`,
+  nested: (arg, parentName, fn) => fn(arg.children, resolveName(parentName, arg.name)),
 };
 
-const iter = (children, prevName) => {
-  const extracted = children.map((node) => {
-    if (node.type === 'nested') {
-      return iter(node.children, resolveName(prevName, node.name));
-    }
-    return renders[node.status](node, prevName);
-  });
-  return extracted;
-};
-
-const render = (ast) => {
-  const diff = iter(ast, '');
-  return _.flattenDeep(diff).join('\n');
+const render = (ast, parentName = '') => {
+  const diff = ast.map(node => renders[node.status](node, parentName, render));
+  return _.flatten(diff).join('\n');
 };
 
 export default render;
